@@ -1,0 +1,32 @@
+<launch>
+  <node name="usb_cam1" pkg="usb_cam" type="usb_cam_node" output="screen" > 
+    <param name="video_device" value="/dev/video0" />
+    <param name="image_width" value="640" />
+    <param name="image_height" value="480" />
+    <param name="pixel_format" value="yuyv" />
+    <param name="camera_frame_id" value="usb_cam" />
+    <param name="io_method" value="mmap"/>
+    <remap from="/usb_cam/image_raw" to="/usb_cam1/image_raw" />
+    <remap from="/usb_cam/camera_info" to="/usb_cam1/camera_info" />
+  </node>
+  <node name="usb_cam2" pkg="usb_cam" type="usb_cam_node" output="screen" > 
+    <param name="video_device" value="/dev/video0" />
+    <param name="image_width" value="640" />
+    <param name="image_height" value="480" />
+    <param name="pixel_format" value="yuyv" />
+    <param name="camera_frame_id" value="usb_cam" />
+    <param name="io_method" value="mmap"/>
+    <remap from="/usb_cam/image_raw" to="/usb_cam2/image_raw" />
+    <remap from="/usb_cam/camera_info" to="/usb_cam2/camera_info" />
+  </node>
+  <node name="image_proc1" pkg="image_proc" type="image_proc" ns="usb_cam" >
+     <remap from="/usb_cam/image_raw" to="/usb_cam1/image_raw" />
+     <remap from="/usb_cam/camera_info" to="/usb_cam1/camera_info" />
+     <remap from="/usb_cam/image_rect_color" to="/usb_cam/image_rect_color1" />
+  </node>
+  <node name="image_proc2" pkg="image_proc" type="image_proc" ns="usb_cam" >
+    <remap from="/usb_cam/image_raw" to="/usb_cam2/image_raw" />
+    <remap from="/usb_cam/camera_info" to="/usb_cam2/camera_info" />
+    <remap from="/usb_cam/image_rect_color" to="/usb_cam/image_rect_color2" />
+  </node>
+</launch>
